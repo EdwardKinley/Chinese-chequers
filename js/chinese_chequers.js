@@ -1,11 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   const board = document.querySelector('.board');
+  const score = document.querySelector('.score');
 
+  n = 0;
+
+  addPlayerNumberOptions();
   addRows();
   addSpaces();
 
-  function addRows() {
+  function addPlayerNumberOptions() {
+    const numbers = [2, 3, 4, 6];
+    for (i=0; i<numbers.length; i++) {
+      const option = document.createElement('div');
+      option.className = 'option';
+      option.id = `option${numbers[i]}`;
+      score.appendChild(option);
+    }
+  }
+
+  function addRows(location) {
     for (i=0; i<17; i++) {
       const row = document.createElement('div');
       row.className = 'row';

@@ -7,9 +7,34 @@ body {
   height: 98%;
   width: 99%;
   display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.score {
+  height: 95vh;
+  width: 15vh;
+  margin-right: 5vh;
+  /* background-color: blue; */
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.option {
+  height: 15vh;
+  width: 15vh;
+  border-radius: 50%;
+  background-color: goldenrod;
+  margin: 1vh;
+  transition: transform 0.4s ease;
+}
+
+.option:hover {
+  transform: scale(1.05);
+  background-color: gold;
 }
 
 .board {
@@ -17,7 +42,7 @@ body {
   width: 95vh;
   min-width: 95vh;
   border-radius: 50%;
-  background-color: sandybrown;
+  background-color: goldenrod;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -37,6 +62,6 @@ body {
 .space {
   height: 100%;
   border-radius: 50%;
-  background-color: green;
+  background-color: black;
   margin: 0 0.455%;
 }
