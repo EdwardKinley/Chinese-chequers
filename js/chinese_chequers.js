@@ -11,18 +11,30 @@ document.addEventListener('DOMContentLoaded', () => {
   addSpaces();
   // addPieces(2);
   // addPieces(3);
-  addPieces(4);
+  // addPieces(4);
   // addPieces(6);
 
   function addPlayerNumberOptions() {
     const numbers = [2, 3, 4, 6];
-    for (i=0; i<numbers.length; i++) {
+    for (x=0; x<numbers.length; x++) {
       const option = document.createElement('div');
       option.className = 'option';
-      option.id = `option${numbers[i]}`;
-      option.style.backgroundImage = `url("images/option${numbers[i]}.png")`;
+      option.id = `option${numbers[x]}`;
+      option.style.backgroundImage = `url("images/option${numbers[x]}.png")`;
+      const thisX = x;
+      option.addEventListener('click', () => {
+        removeAllPieces();
+        addPieces(numbers[thisX]);
+      })
       score.appendChild(option);
-      console.log(`images/option${numbers[i]}.png`);
+    }
+  }
+
+  function removeAllPieces() {
+    const pieces = document.querySelectorAll('.piece');
+    console.log(pieces);
+    for (i=0; i<pieces.length; i++) {
+      pieces[i].parentNode.removeChild(pieces[i]);
     }
   }
 
