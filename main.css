@@ -27,14 +27,15 @@ body {
   height: 15vh;
   width: 15vh;
   border-radius: 50%;
-  background-color: goldenrod;
+  /* background-color: goldenrod; */
   margin: 1vh;
   transition: transform 0.4s ease;
+  background-size: 100% 100%;
 }
 
 .option:hover {
   transform: scale(1.05);
-  background-color: gold;
+  /* background-color: gold; */
 }
 
 .board {

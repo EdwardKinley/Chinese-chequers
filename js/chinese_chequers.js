@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
   addSpaces();
   // addPieces(2);
   // addPieces(3);
-  // addPieces(4);
-  addPieces(6);
+  addPieces(4);
+  // addPieces(6);
 
   function addPlayerNumberOptions() {
     const numbers = [2, 3, 4, 6];
@@ -20,7 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const option = document.createElement('div');
       option.className = 'option';
       option.id = `option${numbers[i]}`;
+      option.style.backgroundImage = `url("images/option${numbers[i]}.png")`;
       score.appendChild(option);
+      console.log(`images/option${numbers[i]}.png`);
     }
   }
 
@@ -34,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
         row.id = `row${i}`;
       }
       row.style.height = `${100/17}%`;
-      // row.textContent = row.id;
       board.appendChild(row);
     }
   }
@@ -68,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
         space.id = `space${row.id[3]}${row.id[4]}-${j}`;
       }
       space.style.width = `${100/17}%`;
-      // space.textContent = space.id.substring(5);
       row.appendChild(space);
     }
   }
@@ -170,7 +170,5 @@ document.addEventListener('DOMContentLoaded', () => {
     if (i>=10 && j<10) { return document.querySelector(`#space${i}-0${j}`); }
     if (i>=10 && j>=10) { return document.querySelector(`#space${i}-${j}`); }
   }
-
-
 
 })
