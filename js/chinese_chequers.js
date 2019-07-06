@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function isSteppable(piece) {
-    return (canStep(piece, 'sl') || canStep(piece, 'sr'));
+    return (canStep(piece, 'sl') || canStep(piece, 'sr') || canStep(piece, 'ul') || canStep(piece, 'ur') || canStep(piece, 'dl') || canStep(piece, 'dr'));
   }
 
   function canStep(piece, direction) {
@@ -266,13 +266,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const idJ = parseInt(`${piece.parentNode.id[9]}${piece.parentNode.id[10]}${piece.parentNode.id[11]}`)
     if (direction == 'sl') { return document.querySelector(`#space${idI}-${idJ-distance}`); }
     else if (direction == 'sr') { return document.querySelector(`#space${idI}-${idJ+distance}`); }
-    else if (direction == 'ul') {
-      // if () {
-      //   return document.querySelector(`#space${idI-distance}-${idJ}`);
-      // } else {
-      //   return document.querySelector(`#space${idI-distance}-${idJ}`);
-      // }
-    }
+    else if (direction == 'ul') { return document.querySelector(`#space${idI-distance}-${idJ}`); }
+    else if (direction == 'ur') { return document.querySelector(`#space${idI-distance}-${idJ+distance}`); }
+    else if (direction == 'dl') { return document.querySelector(`#space${idI+distance}-${idJ-distance}`); }
+    else if (direction == 'dr') { return document.querySelector(`#space${idI+distance}-${idJ}`); }
   }
 
 
