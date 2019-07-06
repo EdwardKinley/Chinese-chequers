@@ -15,6 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // addPieces(6);
 
   function addPlayerNumberOptions() {
+    const selectInstruction = document.createElement('div');
+    selectInstruction.className = 'instruction';
+    selectInstruction.textContent = 'Select players:';
+    score.appendChild(selectInstruction);
     const numbers = [2, 3, 4, 6];
     for (x=0; x<numbers.length; x++) {
       const option = document.createElement('div');
@@ -24,15 +28,24 @@ document.addEventListener('DOMContentLoaded', () => {
       const thisX = x;
       option.addEventListener('click', () => {
         removeAllPieces();
+        n = numbers[thisX];
         addPieces(numbers[thisX]);
       })
       score.appendChild(option);
     }
+    const startButton = document.createElement('button');
+    startButton.className = 'button';
+    startButton.textContent = 'Start game';
+    score.appendChild(startButton);
+    startButton.addEventListener('click', () => {
+      if (n>0) {
+        startGame();
+      }
+    })
   }
 
   function removeAllPieces() {
     const pieces = document.querySelectorAll('.piece');
-    console.log(pieces);
     for (i=0; i<pieces.length; i++) {
       pieces[i].parentNode.removeChild(pieces[i]);
     }
@@ -181,6 +194,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (i<10 && j>=10) { return document.querySelector(`#space0${i}-${j}`); }
     if (i>=10 && j<10) { return document.querySelector(`#space${i}-0${j}`); }
     if (i>=10 && j>=10) { return document.querySelector(`#space${i}-${j}`); }
+  }
+
+  function startGame() {
+    console.log('starting...', n);
   }
 
 })
