@@ -5,20 +5,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
   n = 0;
   colours = ['red', 'yellow', 'green', 'blue', 'purple', 'darkorange'];
+  players = [];
+  currentPlayerPieces = [];
+  steppables = [];
 
-  addPlayerNumberOptions();
+  enablePlayerNumberSelection();
   addRows();
   addSpaces();
-  // addPieces(2);
-  // addPieces(3);
-  // addPieces(4);
-  // addPieces(6);
+  // colourHomeSpaces('#505050');
 
-  function addPlayerNumberOptions() {
+  function enablePlayerNumberSelection() {
+    addSelectInstruction();
+    addPlayerNumberOptions();
+    addStartButton();
+  }
+
+  function addSelectInstruction() {
     const selectInstruction = document.createElement('div');
     selectInstruction.className = 'instruction';
     selectInstruction.textContent = 'Select players:';
     score.appendChild(selectInstruction);
+  }
+
+  function addPlayerNumberOptions() {
     const numbers = [2, 3, 4, 6];
     for (x=0; x<numbers.length; x++) {
       const option = document.createElement('div');
@@ -33,6 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       score.appendChild(option);
     }
+  }
+
+  function addStartButton() {
     const startButton = document.createElement('button');
     startButton.className = 'button';
     startButton.textContent = 'Start game';
@@ -55,11 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     for (i=0; i<17; i++) {
       const row = document.createElement('div');
       row.className = 'row';
-      if (i<10) {
-        row.id = `row0${i}`;
-      } else {
-        row.id = `row${i}`;
-      }
+      row.id = `row${100+i}`;
       row.style.height = `${100/17}%`;
       board.appendChild(row);
     }
@@ -67,11 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function addSpaces() {
     for (i=0; i<17; i++) {
-      if (i<10) {
-        row = document.querySelector(`#row0${i}`);
-      } else {
-        row = document.querySelector(`#row${i}`);
-      }
+      row = document.querySelector(`#row${100+i}`);
       if (i<4) {
         addSpacesToRow(row, i+1);
       } else if (i<9) {
@@ -88,13 +92,18 @@ document.addEventListener('DOMContentLoaded', () => {
     for (j=0; j<n; j++) {
       const space = document.createElement('div');
       space.className = 'space';
-      if (j<10) {
-        space.id = `space${row.id[3]}${row.id[4]}-0${j}`;
-      } else {
-        space.id = `space${row.id[3]}${row.id[4]}-${j}`;
-      }
+      space.id = `space1${row.id[4]}${row.id[5]}-${100+j}`;
       space.style.width = `${100/17}%`;
       row.appendChild(space);
+    }
+  }
+
+  function colourHomeSpaces(colour) {
+    const spaces = document.querySelectorAll('.space');
+    for (i=0; i<spaces.length; i++) {
+      if (i<14 || (i>18 && i<26) || (i>31 && i<37) || (i>43 && i<47) || i==55 || i==65 || (i>73 && i<77) || (i>83 && i<89) || (i>94 && i<102) || i>106) {
+        spaces[i].style.backgroundColor = colour;
+      }
     }
   }
 
@@ -129,18 +138,19 @@ document.addEventListener('DOMContentLoaded', () => {
       for (i=0; i<4; i++) {
         thisI = i;
         for (j=0; j<=thisI; j++) {
-          addPiece(thisI, j, colours[0]);
+          addPiece(100+thisI, 100+j, colours[0]);
         }
       }
       if (lines==5) {
-        for (k=0; k<5; k++) { addPiece(4, k+4, colours[0]); }
+        console.log(k+104);
+        for (k=0; k<5; k++) { addPiece(104, k+104, colours[0]); }
       }
     }
     if (id==1) {
       for (i=4; i<=7; i++) {
         thisI = i;
         for (j=9; j<17-thisI; j++) {
-          addPiece(thisI, j, colours[1])
+          addPiece(100+thisI, 100+j, colours[1])
         }
       }
     }
@@ -148,18 +158,18 @@ document.addEventListener('DOMContentLoaded', () => {
       for (i=9; i<=12; i++) {
         thisI = i;
         for (j=9; j<=thisI; j++) {
-          addPiece(thisI, j, colours[2])
+          addPiece(100+thisI, 100+j, colours[2])
         }
       }
     }
     if (id==3) {
       if (lines==5) {
-        for (k=0; k<5; k++) { addPiece(12, k+4, colours[3]); }
+        for (k=0; k<5; k++) { addPiece(112, k+104, colours[3]); }
       }
       for (i=0; i<4; i++) {
         thisI = i;
         for (j=0; j<4-thisI; j++) {
-          addPiece(thisI+13, j, colours[3]);
+          addPiece(thisI+113, 100+j, colours[3]);
         }
       }
     }
@@ -167,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
       for (i=9; i<=12; i++) {
         thisI = i;
         for (j=0; j<thisI-8; j++) {
-          addPiece(thisI, j, colours[4])
+          addPiece(100+thisI, 100+j, colours[4])
         }
       }
     }
@@ -175,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
       for (i=4; i<=7; i++) {
         thisI = i;
         for (j=0; j<8-thisI; j++) {
-          addPiece(thisI, j, colours[5])
+          addPiece(100+thisI, 100+j, colours[5])
         }
       }
     }
@@ -190,14 +200,57 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function getSpace(i, j) {
-    if (i<10 && j<10) { return document.querySelector(`#space0${i}-0${j}`); }
-    if (i<10 && j>=10) { return document.querySelector(`#space0${i}-${j}`); }
-    if (i>=10 && j<10) { return document.querySelector(`#space${i}-0${j}`); }
-    if (i>=10 && j>=10) { return document.querySelector(`#space${i}-${j}`); }
+    return document.querySelector(`#space${i}-${j}`);
   }
 
   function startGame() {
-    console.log('starting...', n);
+    score.innerHTML = '';
+    updatePlayers();
+    updateCurrentPlayerPieces();
+    updateSteppables();
   }
+
+  function updatePlayers() {
+    if (n==2) { players = [0, 3]; }
+    if (n==3) { players = [0, 2, 4]; }
+    if (n==4) { players = [1, 2, 4, 5]; }
+    if (n==6) { players = [0, 1, 2, 3, 4, 5]; }
+  }
+
+  function updateCurrentPlayerPieces() {
+    const allPieces = document.querySelectorAll('.piece');
+    for (i=0; i<allPieces.length; i++) {
+      if (allPieces[i].style.backgroundColor == colours[players[0]]) {
+        currentPlayerPieces.push(allPieces[i]);
+      }
+    }
+  }
+
+  function updateSteppables() {
+    for (i=0; i<currentPlayerPieces.length; i++) {
+      console.log(currentPlayerPieces[i].parentNode.id);
+      if (isSteppable(currentPlayerPieces[i])) {
+        steppables.push(currentPlayerPieces[i]);
+      }
+    }
+    console.log('steppables', steppables);
+  }
+
+  function isSteppable(piece) {
+    return (canStep(piece, 'sl'))
+  }
+
+  function canStep(piece, direction) {
+    if (relativeSpace(piece, direction, 1) != null && relativeSpace(piece, direction, 2) != null && relativeSpace(piece, direction, 2).firstChild == null) { return true; }
+  }
+
+  function relativeSpace(piece, direction, distance) {
+
+    // if (direction == 'sl') { return  }
+  }
+
+
+
+
 
 })
