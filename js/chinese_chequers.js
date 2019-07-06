@@ -4,10 +4,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const score = document.querySelector('.score');
 
   n = 0;
+  colours = ['red', 'yellow', 'green', 'blue', 'purple', 'darkorange'];
 
   addPlayerNumberOptions();
   addRows();
   addSpaces();
+  // addPieces(2);
+  // addPieces(3);
+  // addPieces(4);
+  addPieces(6);
 
   function addPlayerNumberOptions() {
     const numbers = [2, 3, 4, 6];
@@ -68,6 +73,103 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function addPieces(n) {
+    if (n==2) {
+      addSet(0, 5);
+      addSet(3, 5);
+    }
+    if (n==3) {
+      addSet(0, 4);
+      addSet(2, 4);
+      addSet(4, 4);
+    }
+    if (n==4) {
+      addSet(1, 4);
+      addSet(2, 4);
+      addSet(4, 4);
+      addSet(5, 4);
+    }
+    if (n==6) {
+      addSet(0, 4);
+      addSet(1, 4);
+      addSet(2, 4);
+      addSet(3, 4);
+      addSet(4, 4);
+      addSet(5, 4);
+    }
+  }
+
+  function addSet(id, lines) {
+    if (id==0) {
+      for (i=0; i<4; i++) {
+        thisI = i;
+        for (j=0; j<=thisI; j++) {
+          addPiece(thisI, j, colours[0]);
+        }
+      }
+      if (lines==5) {
+        for (k=0; k<5; k++) { addPiece(4, k+4, colours[0]); }
+      }
+    }
+    if (id==1) {
+      for (i=4; i<=7; i++) {
+        thisI = i;
+        for (j=9; j<17-thisI; j++) {
+          addPiece(thisI, j, colours[1])
+        }
+      }
+    }
+    if (id==2) {
+      for (i=9; i<=12; i++) {
+        thisI = i;
+        for (j=9; j<=thisI; j++) {
+          addPiece(thisI, j, colours[2])
+        }
+      }
+    }
+    if (id==3) {
+      if (lines==5) {
+        for (k=0; k<5; k++) { addPiece(12, k+4, colours[3]); }
+      }
+      for (i=0; i<4; i++) {
+        thisI = i;
+        for (j=0; j<4-thisI; j++) {
+          addPiece(thisI+13, j, colours[3]);
+        }
+      }
+    }
+    if (id==4) {
+      for (i=9; i<=12; i++) {
+        thisI = i;
+        for (j=0; j<thisI-8; j++) {
+          addPiece(thisI, j, colours[4])
+        }
+      }
+    }
+    if (id==5) {
+      for (i=4; i<=7; i++) {
+        thisI = i;
+        for (j=0; j<8-thisI; j++) {
+          addPiece(thisI, j, colours[5])
+        }
+      }
+    }
+  }
+
+  function addPiece(i, j, colour) {
+    space = getSpace(i, j);
+    const piece = document.createElement('div');
+    piece.className = 'piece';
+    space.appendChild(piece);
+    piece.style.backgroundColor = colour;
+  }
+
+  function getSpace(i, j) {
+    if (i<10 && j<10) { return document.querySelector(`#space0${i}-0${j}`); }
+    if (i<10 && j>=10) { return document.querySelector(`#space0${i}-${j}`); }
+    if (i>=10 && j<10) { return document.querySelector(`#space${i}-0${j}`); }
+    if (i>=10 && j>=10) { return document.querySelector(`#space${i}-${j}`); }
+  }
 
 
 
