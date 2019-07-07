@@ -9,8 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
   currentPlayerPieces = [];
   steppables = [];
   hoppables = [];
-  selectedSteppable = null;
-  selectedHoppable = null;
+  movables = [];
+  // selectedSteppable = null;
+  // selectedHoppable = null;
+  selectedPiece = null;
 
   enablePlayerNumberSelection();
   addRows();
@@ -220,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function startGame() {
     score.innerHTML = '';
-    addPiece(109, 105, 'red')
+    addPiece(106, 112, 'red')
     updatePlayers();
     showNewGameButton();
     enableMove();
@@ -247,8 +249,11 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCurrentPlayerPieces();
     updateSteppables();
     updateHoppables();
-    makeSteppablesSelectable();
-    makeHoppablesSelectable();
+    updateMovables();
+    console.log('movables', movables);
+    makeMovablesSelectable();
+    // makeSteppablesSelectable();
+    // makeHoppablesSelectable();
   }
 
   function updateCurrentPlayerPieces() {
@@ -308,27 +313,67 @@ document.addEventListener('DOMContentLoaded', () => {
     else if (direction == 'dr') { return document.querySelector(`#space${idI+distance}-${idJ}`); }
   }
 
-  function makeSteppablesSelectable() {
-    for (i=0; i<steppables.length; i++) {
-      steppables[i].addEventListener('click', steppableSelected);
+  function updateMovables() {
+    movables = Array.from(new Set(steppables.concat(hoppables)));
+  }
+
+  // function makeSteppablesSelectable() {
+  //   for (i=0; i<steppables.length; i++) {
+  //     steppables[i].addEventListener('click', steppableClicked);
+  //   }
+  //   console.log('step...');
+  // }
+  //
+  // function makeHoppablesSelectable() {
+  //   console.log('hop...');
+  // }
+  //
+  // function steppableClicked() {
+  //   if (selectedPiece == null) {
+  //     selectedPiece = this;
+  //
+  //   }
+  //   showSelected(selectedPiece);
+  //   console.log(selectedPiece.parentNode);
+  // }
+
+  function makeMovablesSelectable() {
+    for (i=0; i<movables.length; i++) {
+      movables[i].addEventListener('click', movableClicked);
     }
-    console.log('step...');
   }
 
-  function makeHoppablesSelectable() {
-    console.log('hop...');
+  function movableClicked() {
+    if (selectedPiece == null) {
+      // selectedPiece = this;
+      makeMovableSelected(this);
+    } else if (selectedPiece == this) {
+      makeMovableUnselected();
+    } else if (selectedPiece != null && selectedPiece != this) {
+      makeMovableUnselected();
+      makeMovableSelected(this);
+    }
   }
 
-  function steppableSelected() {
-    selectedSteppable = this;
-    showSelected(selectedSteppable);
-    console.log(selectedSteppable.parentNode);
+  function makeMovableSelected(piece) {
+    selectedPiece = piece;
+    showSelected(selectedPiece);
+
+  }
+
+  function makeMovableUnselected() {
+    showUnselected(selectedPiece);
+    selectedPiece = null;
   }
 
   function showSelected(piece) {
     const selection = document.createElement('div');
     selection.className = 'selection';
     piece.appendChild(selection);
+  }
+
+  function showUnselected(piece) {
+    piece.removeChild(piece.firstChild);
   }
 
 
