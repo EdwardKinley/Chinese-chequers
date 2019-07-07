@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
   currentPlayerPieces = [];
   steppables = [];
   hoppables = [];
+  selectedSteppable = null;
+  selectedHoppable = null;
 
   enablePlayerNumberSelection();
   addRows();
@@ -245,6 +247,8 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCurrentPlayerPieces();
     updateSteppables();
     updateHoppables();
+    makeSteppablesSelectable();
+    makeHoppablesSelectable();
   }
 
   function updateCurrentPlayerPieces() {
@@ -304,7 +308,28 @@ document.addEventListener('DOMContentLoaded', () => {
     else if (direction == 'dr') { return document.querySelector(`#space${idI+distance}-${idJ}`); }
   }
 
+  function makeSteppablesSelectable() {
+    for (i=0; i<steppables.length; i++) {
+      steppables[i].addEventListener('click', steppableSelected);
+    }
+    console.log('step...');
+  }
 
+  function makeHoppablesSelectable() {
+    console.log('hop...');
+  }
+
+  function steppableSelected() {
+    selectedSteppable = this;
+    showSelected(selectedSteppable);
+    console.log(selectedSteppable.parentNode);
+  }
+
+  function showSelected(piece) {
+    const selection = document.createElement('div');
+    selection.className = 'selection';
+    piece.appendChild(selection);
+  }
 
 
 

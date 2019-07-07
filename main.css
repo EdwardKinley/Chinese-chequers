@@ -76,6 +76,9 @@ body {
   height: 80%;
   width: 80%;
   border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .instruction {
@@ -105,4 +108,11 @@ body {
 
 .button:focus {
   outline: none;
+}
+
+.selection {
+  height: 50%;
+  width: 50%;
+  border-radius: 50%;
+  background-color: black;
 }
