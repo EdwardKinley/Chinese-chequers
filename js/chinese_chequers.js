@@ -13,11 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // selectedSteppable = null;
   // selectedHoppable = null;
   selectedPiece = null;
+  spacesStepToable = [];
+  spacesHopToable = [];
+  spacesMoveToable = [];
 
   enablePlayerNumberSelection();
   addRows();
   addSpaces();
-  // colourHomeSpaces('#505050');
+  // colourHomeSpaces('#202020');
 
   function enablePlayerNumberSelection() {
     addSelectInstruction();
@@ -252,8 +255,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateMovables();
     console.log('movables', movables);
     makeMovablesSelectable();
-    // makeSteppablesSelectable();
-    // makeHoppablesSelectable();
   }
 
   function updateCurrentPlayerPieces() {
@@ -317,26 +318,6 @@ document.addEventListener('DOMContentLoaded', () => {
     movables = Array.from(new Set(steppables.concat(hoppables)));
   }
 
-  // function makeSteppablesSelectable() {
-  //   for (i=0; i<steppables.length; i++) {
-  //     steppables[i].addEventListener('click', steppableClicked);
-  //   }
-  //   console.log('step...');
-  // }
-  //
-  // function makeHoppablesSelectable() {
-  //   console.log('hop...');
-  // }
-  //
-  // function steppableClicked() {
-  //   if (selectedPiece == null) {
-  //     selectedPiece = this;
-  //
-  //   }
-  //   showSelected(selectedPiece);
-  //   console.log(selectedPiece.parentNode);
-  // }
-
   function makeMovablesSelectable() {
     for (i=0; i<movables.length; i++) {
       movables[i].addEventListener('click', movableClicked);
@@ -358,12 +339,13 @@ document.addEventListener('DOMContentLoaded', () => {
   function makeMovableSelected(piece) {
     selectedPiece = piece;
     showSelected(selectedPiece);
-
+    updateAllMoveToables();
   }
 
   function makeMovableUnselected() {
     showUnselected(selectedPiece);
     selectedPiece = null;
+    emptyAllMoveToables();
   }
 
   function showSelected(piece) {
@@ -376,6 +358,35 @@ document.addEventListener('DOMContentLoaded', () => {
     piece.removeChild(piece.firstChild);
   }
 
+  function emptyAllMoveToables() {
+    spacesStepToable = [];
+    spacesHopToable = [];
+    spacesMoveToable = [];
+  }
+
+  function updateAllMoveToables() {
+    updateSpacesStepToable();
+    updateSpacesHopToable();
+    updateSpacesMoveToable();
+    console.log(spacesStepToable);
+  }
+
+  function updateSpacesStepToable() {
+    if (canStep(selectedPiece, 'ul')) { spacesStepToable.push(relativeSpace(selectedPiece, 'ul', 1)); }
+    if (canStep(selectedPiece, 'ur')) { spacesStepToable.push(relativeSpace(selectedPiece, 'ur', 1)); }
+    if (canStep(selectedPiece, 'sl')) { spacesStepToable.push(relativeSpace(selectedPiece, 'sl', 1)); }
+    if (canStep(selectedPiece, 'sr')) { spacesStepToable.push(relativeSpace(selectedPiece, 'sr', 1)); }
+    if (canStep(selectedPiece, 'dl')) { spacesStepToable.push(relativeSpace(selectedPiece, 'dl', 1)); }
+    if (canStep(selectedPiece, 'dr')) { spacesStepToable.push(relativeSpace(selectedPiece, 'dr', 1)); }
+  }
+
+  function updateSpacesHopToable() {
+
+  }
+
+  function updateSpacesMoveToable() {
+    spacesMoveToable = Array.from(new Set(spacesStepToable.concat(spacesHopToable)));
+  }
 
 
 })
