@@ -116,3 +116,9 @@ body {
   border-radius: 50%;
   background-color: black;
 }
+
+.currentPlayer {
+  height: 15vh;
+  width: 15vh;
+  border-radius: 50%;
+}

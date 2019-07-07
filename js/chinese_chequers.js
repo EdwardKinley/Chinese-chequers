@@ -248,6 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function enableMove() {
+    showCurrentPlayer();
     updateCurrentPlayerPieces();
     updateSteppables();
     updateHoppables();
@@ -256,7 +257,20 @@ document.addEventListener('DOMContentLoaded', () => {
     makeMovablesSelectable();
   }
 
+  function showCurrentPlayer() {
+    const currentPlayer = document.createElement('div');
+    currentPlayer.className = 'currentPlayer';
+    currentPlayer.style.backgroundColor = colours[players[0]];
+    score.appendChild(currentPlayer);
+  }
+
+  function unshowCurrentPlayer() {
+    const currentPlayerSign = document.querySelector('.currentPlayer');
+    currentPlayerSign.parentNode.removeChild(currentPlayerSign);
+  }
+
   function updateCurrentPlayerPieces() {
+    currentPlayerPieces = [];
     const allPieces = document.querySelectorAll('.piece');
     for (i=0; i<allPieces.length; i++) {
       if (allPieces[i].style.backgroundColor == colours[players[0]]) {
@@ -404,14 +418,36 @@ document.addEventListener('DOMContentLoaded', () => {
   function move() {
     makeMoveToablesUnmoveToable();
     makeMovablesUnselectable();
+    emptyAllMovables();
+    emptyAllMoveToables();
     this.appendChild(selectedPiece);
     showUnselected(selectedPiece);
+    selectedPiece = null;
+    enableNextMove();
   }
 
   function makeMoveToablesUnmoveToable() {
     for (i=0; i<spacesMoveToable.length; i++) {
       spacesMoveToable[i].removeEventListener('click', move);
     }
+  }
+
+  function enableNextMove() {
+    updateCurrentPlayer();
+    enableMove();
+  }
+
+  function updateCurrentPlayer() {
+    unshowCurrentPlayer();
+    console.log('players', players);
+    players.push(players.shift());
+    console.log('players', players);
+  }
+
+  function emptyAllMovables() {
+    steppables = [];
+    hoppables = [];
+    movables = [];
   }
 
 
