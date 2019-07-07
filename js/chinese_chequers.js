@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   players = [];
   currentPlayerPieces = [];
   steppables = [];
+  hoppables = [];
 
   enablePlayerNumberSelection();
   addRows();
@@ -217,10 +218,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function startGame() {
     score.innerHTML = '';
-    updatePlayers();
     addPiece(109, 105, 'red')
-    updateCurrentPlayerPieces();
-    updateSteppables();
+    updatePlayers();
+    enableMove();
   }
 
   function updatePlayers() {
@@ -228,6 +228,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (n==3) { players = [0, 2, 4]; }
     if (n==4) { players = [1, 2, 4, 5]; }
     if (n==6) { players = [0, 1, 2, 3, 4, 5]; }
+  }
+
+  function enableMove() {
+    updateCurrentPlayerPieces();
+    updateSteppables();
+    updateHoppables();
   }
 
   function updateCurrentPlayerPieces() {
@@ -245,7 +251,10 @@ document.addEventListener('DOMContentLoaded', () => {
         steppables.push(currentPlayerPieces[i]);
       }
     }
-    console.log(steppables);
+    console.log('steppables', steppables);
+    // for (j=0; j<steppables.length; j++) {
+    //   steppables[j].style.backgroundColor = 'salmon'
+    // }
   }
 
   function isSteppable(piece) {
@@ -253,12 +262,24 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function canStep(piece, direction) {
-    // console.log(relativeSpace(piece, direction, 1));
     if (relativeSpace(piece, direction, 1) != null && relativeSpace(piece, direction, 1).firstChild == null) { return true; }
   }
 
+  function updateHoppables() {
+    for (i=0; i<currentPlayerPieces.length; i++) {
+      if (isHoppable(currentPlayerPieces[i])) {
+        hoppables.push(currentPlayerPieces[i]);
+      }
+    }
+    console.log('hoppables', hoppables);
+  }
+
+  function isHoppable(piece) {
+    return (canHop(piece, 'sl') || canHop(piece, 'sr') || canHop(piece, 'ul') || canHop(piece, 'ur') || canHop(piece, 'dl') || canHop(piece, 'dr'));
+  }
+
   function canHop(piece, direction) {
-    if (relativeSpace(piece, direction, 1) != null && relativeSpace(piece, direction, 2) != null && relativeSpace(piece, direction, 2).firstChild == null) { return true; }
+    if (relativeSpace(piece, direction, 1) != null && relativeSpace(piece, direction, 1).firstChild != null && relativeSpace(piece, direction, 2) != null && relativeSpace(piece, direction, 2).firstChild == null) { return true; }
   }
 
   function relativeSpace(piece, direction, distance) {
