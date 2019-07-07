@@ -220,6 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
     score.innerHTML = '';
     addPiece(109, 105, 'red')
     updatePlayers();
+    showNewGameButton();
     enableMove();
   }
 
@@ -228,6 +229,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (n==3) { players = [0, 2, 4]; }
     if (n==4) { players = [1, 2, 4, 5]; }
     if (n==6) { players = [0, 1, 2, 3, 4, 5]; }
+  }
+
+  function showNewGameButton() {
+    const newGameButton = document.createElement('button');
+    newGameButton.className = 'button';
+    newGameButton.textContent = 'New Game';
+    score.appendChild(newGameButton);
+    newGameButton.addEventListener('click', () => {
+      location.reload();
+    })
   }
 
   function enableMove() {
