@@ -9,14 +9,14 @@ body {
   width: 99%;
   display: flex;
   flex-direction: row;
-  /* justify-content: center; */
+  justify-content: center;
   align-items: center;
 }
 
 .score {
   height: 95vh;
   width: 15vh;
-  margin-left: 5vh;
+  /* margin-left: 5vh; */
   margin-right: 5vh;
   /* background-color: blue; */
   display: flex;
@@ -40,10 +40,25 @@ body {
   /* background-color: gold; */
 }
 
-.board {
+.colours {
   height: 95vh;
   width: 95vh;
   min-width: 95vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* background-image: conic-gradient(blue 0deg 30deg, goldenrod 30deg 150deg, red 150deg 210deg, goldenrod 210deg 330deg, blue 330deg 360deg);
+  background-image: conic-gradient(goldenrod 0deg 30deg, purple 30deg 90deg, goldenrod 90deg 150deg, red 150deg 210deg, goldenrod 210deg 270deg, green 270deg 330deg, goldenrod 330deg 360deg);
+  background-image: conic-gradient(blue 0deg 30deg, purple 30deg 90deg, darkorange 90deg 150deg, red 150deg 210deg, yellow 210deg 270deg, green 270deg 330deg, blue 330deg 360deg);
+  background-image: conic-gradient(goldenrod 0deg 30deg, purple 30deg 90deg, darkorange 90deg 150deg, goldenrod 150deg 210deg, yellow 210deg 270deg, green 270deg 330deg, goldenrod 330deg 360deg); */
+  border-radius: 50%
+}
+
+.board {
+  height: 98%;
+  width: 98%;
+  /* min-width: 95vh; */
   border-radius: 50%;
   background-color: goldenrod;
   display: flex;

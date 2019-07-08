@@ -19,9 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
   enablePlayerNumberSelection();
   addRows();
   addSpaces();
-  n=6;
-  addPieces(6);
-  startGame();
+  // n=6;
+  // addPieces(6);
+  // startGame();
+
   // colourHomeSpaces('#202020');
 
   function enablePlayerNumberSelection() {
@@ -49,9 +50,18 @@ document.addEventListener('DOMContentLoaded', () => {
         removeAllPieces();
         n = numbers[thisX];
         addPieces(numbers[thisX]);
+        colourTargets(numbers[thisX]);
       })
       score.appendChild(option);
     }
+  }
+
+  function colourTargets(n) {
+    const target = document.querySelector('.colours');
+    if (n==2) { target.style.backgroundImage = 'conic-gradient(blue 0deg 30deg, goldenrod 30deg 150deg, red 150deg 210deg, goldenrod 210deg 330deg, blue 330deg 360deg)'; }
+    if (n==3) { target.style.backgroundImage = 'conic-gradient(goldenrod 0deg 30deg, purple 30deg 90deg, goldenrod 90deg 150deg, red 150deg 210deg, goldenrod 210deg 270deg, green 270deg 330deg, goldenrod 330deg 360deg)'; }
+    if (n==4) { target.style.backgroundImage = 'conic-gradient(goldenrod 0deg 30deg, purple 30deg 90deg, darkorange 90deg 150deg, goldenrod 150deg 210deg, yellow 210deg 270deg, green 270deg 330deg, goldenrod 330deg 360deg)'; }
+    if (n==6) { target.style.backgroundImage = 'conic-gradient(blue 0deg 30deg, purple 30deg 90deg, darkorange 90deg 150deg, red 150deg 210deg, yellow 210deg 270deg, green 270deg 330deg, blue 330deg 360deg)'; }
   }
 
   function addStartButton() {
@@ -79,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const row = document.createElement('div');
       row.className = 'row';
       row.id = `row${100+i}`;
-      row.style.height = `${100/17}%`;
+      row.style.height = `${99/17}%`;
       board.appendChild(row);
     }
   }
@@ -113,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         space.id = `space${rowIDn}-${104+j}`;
       }
-      space.style.width = `${100/17}%`;
+      space.style.width = `${99/17}%`;
       row.appendChild(space);
     }
   }
@@ -224,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function startGame() {
     score.innerHTML = '';
-    addPiece(106, 112, 'red')
+    // addPiece(106, 112, 'red')
     updatePlayers();
     addSectionsToScoreSpace();
     showNewGameButton();
