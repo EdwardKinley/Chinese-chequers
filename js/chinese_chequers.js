@@ -58,9 +58,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function colourTargets(n) {
     const target = document.querySelector('.colours');
-    if (n==2) { target.style.backgroundImage = 'conic-gradient(blue 0deg 30deg, goldenrod 30deg 150deg, red 150deg 210deg, goldenrod 210deg 330deg, blue 330deg 360deg)'; }
-    if (n==3) { target.style.backgroundImage = 'conic-gradient(goldenrod 0deg 30deg, purple 30deg 90deg, goldenrod 90deg 150deg, red 150deg 210deg, goldenrod 210deg 270deg, green 270deg 330deg, goldenrod 330deg 360deg)'; }
-    if (n==4) { target.style.backgroundImage = 'conic-gradient(goldenrod 0deg 30deg, purple 30deg 90deg, darkorange 90deg 150deg, goldenrod 150deg 210deg, yellow 210deg 270deg, green 270deg 330deg, goldenrod 330deg 360deg)'; }
+    if (n==2) { target.style.backgroundImage = 'conic-gradient(blue 0deg 30deg, palegoldenrod 30deg 150deg, red 150deg 210deg, palegoldenrod 210deg 330deg, blue 330deg 360deg)'; }
+    if (n==3) { target.style.backgroundImage = 'conic-gradient(palegoldenrod 0deg 30deg, purple 30deg 90deg, palegoldenrod 90deg 150deg, red 150deg 210deg, palegoldenrod 210deg 270deg, green 270deg 330deg, palegoldenrod 330deg 360deg)'; }
+    if (n==4) { target.style.backgroundImage = 'conic-gradient(palegoldenrod 0deg 30deg, purple 30deg 90deg, darkorange 90deg 150deg, palegoldenrod 150deg 210deg, yellow 210deg 270deg, green 270deg 330deg, palegoldenrod 330deg 360deg)'; }
     if (n==6) { target.style.backgroundImage = 'conic-gradient(blue 0deg 30deg, purple 30deg 90deg, darkorange 90deg 150deg, red 150deg 210deg, yellow 210deg 270deg, green 270deg 330deg, blue 330deg 360deg)'; }
   }
 
