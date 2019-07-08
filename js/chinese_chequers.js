@@ -10,12 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
   steppables = [];
   hoppables = [];
   movables = [];
-  // selectedSteppable = null;
-  // selectedHoppable = null;
   selectedPiece = null;
   spacesStepToable = [];
   spacesHopToable = [];
   spacesMoveToable = [];
+  currentMoveKind = null;
 
   enablePlayerNumberSelection();
   addRows();
@@ -58,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function addStartButton() {
     const startButton = document.createElement('button');
     startButton.className = 'button';
+    startButton.id = 'startButton';
     startButton.textContent = 'Start game';
     score.appendChild(startButton);
     startButton.addEventListener('click', () => {
@@ -226,8 +226,21 @@ document.addEventListener('DOMContentLoaded', () => {
     score.innerHTML = '';
     addPiece(106, 112, 'red')
     updatePlayers();
+    addSectionsToScoreSpace();
     showNewGameButton();
     enableMove();
+  }
+
+  function addSectionsToScoreSpace() {
+    const playerSpace = document.createElement('div');
+    playerSpace.id = 'playerSpace';
+    score.appendChild(playerSpace);
+    const finishersSpace = document.createElement('div');
+    finishersSpace.id = 'finishersSpace';
+    score.appendChild(finishersSpace);
+    const newGameSpace = document.createElement('div');
+    newGameSpace.id = 'newGameSpace';
+    score.appendChild(newGameSpace);
   }
 
   function updatePlayers() {
@@ -240,8 +253,9 @@ document.addEventListener('DOMContentLoaded', () => {
   function showNewGameButton() {
     const newGameButton = document.createElement('button');
     newGameButton.className = 'button';
+    newGameButton.id = 'newGameButton';
     newGameButton.textContent = 'New Game';
-    score.appendChild(newGameButton);
+    document.querySelector('#newGameSpace').appendChild(newGameButton);
     newGameButton.addEventListener('click', () => {
       location.reload();
     })
@@ -253,7 +267,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSteppables();
     updateHoppables();
     updateMovables();
-    console.log('movables', movables);
     makeMovablesSelectable();
   }
 
@@ -261,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentPlayer = document.createElement('div');
     currentPlayer.className = 'currentPlayer';
     currentPlayer.style.backgroundColor = colours[players[0]];
-    score.appendChild(currentPlayer);
+    document.querySelector('#playerSpace').appendChild(currentPlayer);
   }
 
   function unshowCurrentPlayer() {
@@ -383,17 +396,17 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSpacesStepToable();
     updateSpacesHopToable();
     updateSpacesMoveToable();
-    console.log('step', spacesStepToable);
-    console.log('hop', spacesHopToable);
   }
 
   function updateSpacesStepToable() {
-    if (canStep(selectedPiece, 'ul')) { spacesStepToable.push(relativeSpace(selectedPiece, 'ul', 1)); }
-    if (canStep(selectedPiece, 'ur')) { spacesStepToable.push(relativeSpace(selectedPiece, 'ur', 1)); }
-    if (canStep(selectedPiece, 'sl')) { spacesStepToable.push(relativeSpace(selectedPiece, 'sl', 1)); }
-    if (canStep(selectedPiece, 'sr')) { spacesStepToable.push(relativeSpace(selectedPiece, 'sr', 1)); }
-    if (canStep(selectedPiece, 'dl')) { spacesStepToable.push(relativeSpace(selectedPiece, 'dl', 1)); }
-    if (canStep(selectedPiece, 'dr')) { spacesStepToable.push(relativeSpace(selectedPiece, 'dr', 1)); }
+    if (currentMoveKind != 'hop') {
+      if (canStep(selectedPiece, 'ul')) { spacesStepToable.push(relativeSpace(selectedPiece, 'ul', 1)); }
+      if (canStep(selectedPiece, 'ur')) { spacesStepToable.push(relativeSpace(selectedPiece, 'ur', 1)); }
+      if (canStep(selectedPiece, 'sl')) { spacesStepToable.push(relativeSpace(selectedPiece, 'sl', 1)); }
+      if (canStep(selectedPiece, 'sr')) { spacesStepToable.push(relativeSpace(selectedPiece, 'sr', 1)); }
+      if (canStep(selectedPiece, 'dl')) { spacesStepToable.push(relativeSpace(selectedPiece, 'dl', 1)); }
+      if (canStep(selectedPiece, 'dr')) { spacesStepToable.push(relativeSpace(selectedPiece, 'dr', 1)); }
+    }
   }
 
   function updateSpacesHopToable() {
@@ -416,6 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function move() {
+    currentMoveKind = stepOrHop(this);
     makeMoveToablesUnmoveToable();
     makeMovablesUnselectable();
     emptyAllMovables();
@@ -423,7 +437,20 @@ document.addEventListener('DOMContentLoaded', () => {
     this.appendChild(selectedPiece);
     showUnselected(selectedPiece);
     selectedPiece = null;
-    enableNextMove();
+    if (currentMoveKind == 'step') {
+      enableNextMove();
+    } else if (currentMoveKind == 'hop') {
+      console.log(this);
+      makeMovableSelected(this.firstChild);
+      if (document.querySelector('#endTurnButton') == null) {
+        enableFurtherMove();
+      }
+    }
+  }
+
+  function stepOrHop(space) {
+    if (spacesStepToable.includes(space)) { return 'step'; }
+    else if (spacesHopToable.includes(space)) { return 'hop'; }
   }
 
   function makeMoveToablesUnmoveToable() {
@@ -433,15 +460,36 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function enableNextMove() {
+    currentMoveKind = null;
     updateCurrentPlayer();
     enableMove();
   }
 
+  function enableFurtherMove() {
+    const endTurnButton = document.createElement('button');
+    endTurnButton.className = 'button';
+    endTurnButton.id = 'endTurnButton';
+    endTurnButton.textContent = 'End turn';
+    document.querySelector('#playerSpace').appendChild(endTurnButton);
+    endTurnButton.addEventListener('click', () => {
+      endTurnButton.parentNode.removeChild(endTurnButton);
+      makeMovableUnselected();
+      enableNextMove();
+    })
+  }
+
+  // function enableMove() {
+  //   showCurrentPlayer();
+  //   updateCurrentPlayerPieces();
+  //   updateSteppables();
+  //   updateHoppables();
+  //   updateMovables();
+  //   makeMovablesSelectable();
+  // }
+
   function updateCurrentPlayer() {
     unshowCurrentPlayer();
-    console.log('players', players);
     players.push(players.shift());
-    console.log('players', players);
   }
 
   function emptyAllMovables() {
