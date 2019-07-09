@@ -2,10 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const board = document.querySelector('.board');
   const score = document.querySelector('.score');
+  const target = document.querySelector('.colours');
 
   n = 0;
-  colours = ['red', 'yellow', 'green', 'blue', 'purple', 'darkorange'];
+  colours = ['blue', 'rebeccapurple', 'green', 'red', 'yellow', 'deeppink'];
   players = [];
+  targets = [];
   currentPlayerPieces = [];
   steppables = [];
   hoppables = [];
@@ -15,13 +17,18 @@ document.addEventListener('DOMContentLoaded', () => {
   spacesHopToable = [];
   spacesMoveToable = [];
   currentMoveKind = null;
+  const boardColour = 'silver';
+  target.style.background = boardColour;
+  board.style.backgroundColor = boardColour;
+
+  homes = [];
+
+  const homesData4 = [['0012', '0111', '0112', '0210', '0211', '0212', '0309', '0310', '0311', '0312'], ['0413', '0414', '0415', '0416', '0513', '0514', '0515', '0613', '0614', '0713'], ['0912', '1011', '1012', '1110', '1111', '1112', '1209', '1210', '1211', '1212'], ['1304', '1305', '1306', '1307', '1404', '1405', '1406', '1504', '1505', '1604'], ['0903', '1002', '1003', '1101', '1102', '1103', '1200', '1201', '1202', '1203'], ['0404', '0405', '0406', '0407', '0504', '0505', '0506', '0604', '0605', '0704']];
+  const homesData5 = [['0012', '0111', '0112', '0210', '0211', '0212', '0309', '0310', '0311', '0312', '0408', '0409', '0410', '0411', '0412'], [], [], ['1204', '1205', '1206', '1207', '1208', '1304', '1305', '1306', '1307', '1404', '1405', '1406', '1504', '1505', '1604'], [], []];
 
   enablePlayerNumberSelection();
   addRows();
   addSpaces();
-  // n=6;
-  // addPieces(6);
-  // startGame();
 
   // colourHomeSpaces('#202020');
 
@@ -49,7 +56,9 @@ document.addEventListener('DOMContentLoaded', () => {
       option.addEventListener('click', () => {
         removeAllPieces();
         n = numbers[thisX];
-        addPieces(numbers[thisX]);
+        updatePlayers();
+        identifyHomes();
+        addPieces();
         colourTargets(numbers[thisX]);
       })
       score.appendChild(option);
@@ -57,11 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function colourTargets(n) {
-    const target = document.querySelector('.colours');
-    if (n==2) { target.style.backgroundImage = 'conic-gradient(blue 0deg 30deg, palegoldenrod 30deg 150deg, red 150deg 210deg, palegoldenrod 210deg 330deg, blue 330deg 360deg)'; }
-    if (n==3) { target.style.backgroundImage = 'conic-gradient(palegoldenrod 0deg 30deg, purple 30deg 90deg, palegoldenrod 90deg 150deg, red 150deg 210deg, palegoldenrod 210deg 270deg, green 270deg 330deg, palegoldenrod 330deg 360deg)'; }
-    if (n==4) { target.style.backgroundImage = 'conic-gradient(palegoldenrod 0deg 30deg, purple 30deg 90deg, darkorange 90deg 150deg, palegoldenrod 150deg 210deg, yellow 210deg 270deg, green 270deg 330deg, palegoldenrod 330deg 360deg)'; }
-    if (n==6) { target.style.backgroundImage = 'conic-gradient(blue 0deg 30deg, purple 30deg 90deg, darkorange 90deg 150deg, red 150deg 210deg, yellow 210deg 270deg, green 270deg 330deg, blue 330deg 360deg)'; }
+    if (n==2) { target.style.backgroundImage = `conic-gradient(${colours[3]} 0deg 30deg, ${boardColour} 30deg 150deg, ${colours[0]} 150deg 210deg, ${boardColour} 210deg 330deg, ${colours[3]} 330deg 360deg)`; }
+    if (n==3) { target.style.backgroundImage = `conic-gradient(${boardColour} 0deg 30deg, ${colours[4]} 30deg 90deg, ${boardColour} 90deg 150deg, ${colours[0]} 150deg 210deg, ${boardColour} 210deg 270deg, ${colours[2]} 270deg 330deg, ${boardColour} 330deg 360deg)`; }
+    if (n==4) { target.style.backgroundImage = `conic-gradient(${boardColour} 0deg 30deg, ${colours[4]} 30deg 90deg, ${colours[5]} 90deg 150deg, ${boardColour} 150deg 210deg, ${colours[1]} 210deg 270deg, ${colours[2]} 270deg 330deg, ${boardColour} 330deg 360deg)`; }
+    if (n==6) { target.style.backgroundImage = `conic-gradient(${colours[3]} 0deg 30deg, ${colours[4]} 30deg 90deg, ${colours[5]} 90deg 150deg, ${colours[0]} 150deg 210deg, ${colours[1]} 210deg 270deg, ${colours[2]} 270deg 330deg, ${colours[3]} 330deg 360deg)`; }
+    // if (n==6) { target.style.backgroundImage = `conic-gradient(${colours[3]} 20deg, ${boardColour} 20deg 40deg, ${colours[4]} 40deg 80deg, ${boardColour} 80deg 100deg, ${colours[5]} 100deg 140deg, ${boardColour} 140deg 160deg, ${colours[0]} 160deg 200deg, ${boardColour} 200deg 220deg, ${colours[1]} 220deg 260deg, ${boardColour} 260deg 280deg, ${colours[2]} 280deg 320deg, ${boardColour} 320deg 340deg, ${colours[3]} 340deg)`; }
   }
 
   function addStartButton() {
@@ -128,104 +137,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function colourHomeSpaces(colour) {
-    const spaces = document.querySelectorAll('.space');
-    for (i=0; i<spaces.length; i++) {
-      if (i<14 || (i>18 && i<26) || (i>31 && i<37) || (i>43 && i<47) || i==55 || i==65 || (i>73 && i<77) || (i>83 && i<89) || (i>94 && i<102) || i>106) {
-        spaces[i].style.backgroundColor = colour;
-      }
-    }
-  }
+  // function colourHomeSpaces(colour) {
+  //   const spaces = document.querySelectorAll('.space');
+  //   for (i=0; i<spaces.length; i++) {
+  //     if (i<14 || (i>18 && i<26) || (i>31 && i<37) || (i>43 && i<47) || i==55 || i==65 || (i>73 && i<77) || (i>83 && i<89) || (i>94 && i<102) || i>106) {
+  //       spaces[i].style.backgroundColor = colour;
+  //     }
+  //   }
+  // }
 
-  function addPieces(n) {
-    if (n==2) {
-      addSet(0, 5);
-      addSet(3, 5);
-    }
-    if (n==3) {
-      addSet(0, 4);
-      addSet(2, 4);
-      addSet(4, 4);
-    }
-    if (n==4) {
-      addSet(1, 4);
-      addSet(2, 4);
-      addSet(4, 4);
-      addSet(5, 4);
-    }
-    if (n==6) {
-      addSet(0, 4);
-      addSet(1, 4);
-      addSet(2, 4);
-      addSet(3, 4);
-      addSet(4, 4);
-      addSet(5, 4);
-    }
-  }
-
-  function addSet(id, lines) {
-    if (id==0) {
-      for (i=0; i<4; i++) {
-        thisI = i;
-        for (j=0; j<=thisI; j++) {
-          addPiece(100+thisI, 112-thisI+j, colours[0]);
-        }
-      }
-      if (lines==5) {
-        for (k=0; k<5; k++) { addPiece(104, k+108, colours[0]); }
+  function addPieces() {
+    for (i=0; i<players.length; i++) {
+      for (j=0; j<homes[players[i]].length; j++) {
+        const space = homes[players[i]][j];
+        const piece = document.createElement('div');
+        piece.className = 'piece';
+        space.appendChild(piece);
+        piece.style.backgroundColor = colours[players[i]];
       }
     }
-    if (id==1) {
-      for (i=4; i<=7; i++) {
-        thisI = i;
-        for (j=13; j<21-thisI; j++) {
-          addPiece(100+thisI, 100+j, colours[1])
-        }
-      }
-    }
-    if (id==2) {
-      for (i=9; i<=12; i++) {
-        thisI = i;
-        for (j=0; j<=thisI-9; j++) {
-          addPiece(100+thisI, 121-thisI+j, colours[2])
-        }
-      }
-    }
-    if (id==3) {
-      if (lines==5) {
-        for (k=0; k<5; k++) { addPiece(112, k+104, colours[3]); }
-      }
-      for (i=0; i<4; i++) {
-        thisI = i;
-        for (j=0; j<4-thisI; j++) {
-          addPiece(thisI+113, 104+j, colours[3]);
-        }
-      }
-    }
-    if (id==4) {
-      for (i=9; i<=12; i++) {
-        thisI = i;
-        for (j=12-thisI; j<4; j++) {
-          addPiece(100+thisI, 100+j, colours[4])
-        }
-      }
-    }
-    if (id==5) {
-      for (i=4; i<=7; i++) {
-        thisI = i;
-        for (j=4; j<12-thisI; j++) {
-          addPiece(100+thisI, 100+j, colours[5])
-        }
-      }
-    }
-  }
-
-  function addPiece(i, j, colour) {
-    space = getSpace(i, j);
-    const piece = document.createElement('div');
-    piece.className = 'piece';
-    space.appendChild(piece);
-    piece.style.backgroundColor = colour;
   }
 
   function getSpace(i, j) {
@@ -234,11 +164,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function startGame() {
     score.innerHTML = '';
-    // addPiece(106, 112, 'red')
-    updatePlayers();
     addSectionsToScoreSpace();
     showNewGameButton();
     enableMove();
+  }
+
+  function identifyHomes() {
+    for (i=0; i<players.length; i++) {
+      if (n==2) {
+        makeHomeDivs(homesData5);
+      } else {
+        makeHomeDivs(homesData4);
+      }
+      targets = [homes[3], homes[4], homes[5], homes[0], homes[1], homes[2]];
+    }
+  }
+
+  function makeHomeDivs(data) {
+    for (i=0; i<data.length; i++) {
+      homes[i] = [];
+      for (j=0; j<data[i].length; j++) {
+        homes[i].push(document.querySelector(`#space1${data[i][j][0]}${data[i][j][1]}-1${data[i][j][2]}${data[i][j][3]}`));
+      }
+    }
+  }
+
+  function isOccupied(space) {
+    return (space.firstChild != null && space.firstChild.style.backgroundColor == 'red');
   }
 
   function addSectionsToScoreSpace() {
@@ -363,7 +315,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function movableClicked() {
     if (selectedPiece == null) {
-      // selectedPiece = this;
       makeMovableSelected(this);
     } else if (selectedPiece == this) {
       makeMovableUnselected();
@@ -450,7 +401,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (currentMoveKind == 'step') {
       enableNextMove();
     } else if (currentMoveKind == 'hop') {
-      console.log(this);
       makeMovableSelected(this.firstChild);
       if (document.querySelector('#endTurnButton') == null) {
         enableFurtherMove();
@@ -488,15 +438,6 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
 
-  // function enableMove() {
-  //   showCurrentPlayer();
-  //   updateCurrentPlayerPieces();
-  //   updateSteppables();
-  //   updateHoppables();
-  //   updateMovables();
-  //   makeMovablesSelectable();
-  // }
-
   function updateCurrentPlayer() {
     unshowCurrentPlayer();
     players.push(players.shift());
@@ -507,8 +448,5 @@ document.addEventListener('DOMContentLoaded', () => {
     hoppables = [];
     movables = [];
   }
-
-
-
 
 })

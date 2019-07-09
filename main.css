@@ -16,12 +16,10 @@ body {
 .score {
   height: 95vh;
   width: 15vh;
-  /* margin-left: 5vh; */
   margin-right: 5vh;
-  /* background-color: blue; */
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -29,7 +27,6 @@ body {
   height: 15vh;
   width: 15vh;
   border-radius: 50%;
-  /* background-color: goldenrod; */
   margin: 1vh;
   transition: transform 0.4s ease;
   background-size: 100% 100%;
@@ -37,7 +34,6 @@ body {
 
 .option:hover {
   transform: scale(1.05);
-  /* background-color: gold; */
 }
 
 .colours {
@@ -48,20 +44,13 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: palegoldenrod;
-  /* background-image: conic-gradient(blue 0deg 30deg, goldenrod 30deg 150deg, red 150deg 210deg, goldenrod 210deg 330deg, blue 330deg 360deg);
-  background-image: conic-gradient(goldenrod 0deg 30deg, purple 30deg 90deg, goldenrod 90deg 150deg, red 150deg 210deg, goldenrod 210deg 270deg, green 270deg 330deg, goldenrod 330deg 360deg);
-  background-image: conic-gradient(blue 0deg 30deg, purple 30deg 90deg, darkorange 90deg 150deg, red 150deg 210deg, yellow 210deg 270deg, green 270deg 330deg, blue 330deg 360deg);
-  background-image: conic-gradient(goldenrod 0deg 30deg, purple 30deg 90deg, darkorange 90deg 150deg, goldenrod 150deg 210deg, yellow 210deg 270deg, green 270deg 330deg, goldenrod 330deg 360deg); */
   border-radius: 50%
 }
 
 .board {
   height: 98%;
   width: 98%;
-  /* min-width: 95vh; */
   border-radius: 50%;
-  background-color: palegoldenrod;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -75,7 +64,6 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  /* background-color: blue; */
 }
 
 .space {
@@ -98,10 +86,6 @@ body {
 }
 
 .instruction {
-  /* height: 15vh;
-  width: 15vh; */
-  /* border-radius: 50%;
-  background-color: lightblue; */
   margin: 1vh;
   text-align: center;
 }
@@ -111,7 +95,6 @@ body {
   width: 15vh;
   border-radius: 50%;
   background-color: silver;
-  /* margin: 1vh; */
   font-size: 100%;
   border: 0;
   transition: transform 0.4s ease;
@@ -143,17 +126,14 @@ body {
 #playerSpace {
   height: 31vh;
   width: 100%;
-  /* background-color: brown; */
 }
 
 #finishersSpace {
   height: 49vh;
   width: 100%;
-  /* background-color: red; */
 }
 
 #newGameSpace {
   height: 15vh;
   width: 100%;
-  /* background-color: green; */
 }
