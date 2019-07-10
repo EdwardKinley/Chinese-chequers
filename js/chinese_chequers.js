@@ -440,7 +440,7 @@ document.addEventListener('DOMContentLoaded', () => {
       };
     }
     const targetScore = targets[players[0]].length;
-    if (playerScore != targetScore) {
+    if (playerScore == targetScore) {
       showFinisher(players[0]);
       players.shift();
       players.unshift(players.pop());
