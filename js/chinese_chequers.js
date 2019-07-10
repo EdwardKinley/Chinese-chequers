@@ -447,7 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // console.log('target score', targetScore);
     // console.log('score', playerScore);
     // console.log('finished?', playerScore == targetScore);
-    if (playerScore == targetScore) {
+    if (playerScore != targetScore) {
       showFinisher(players[0]);
       players.shift();
       players.unshift(players.pop());

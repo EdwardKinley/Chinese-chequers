@@ -124,18 +124,20 @@ body {
 }
 
 #playerSpace {
-  height: 31vh;
+  height: 32vh;
   width: 100%;
+  /* background-color: green; */
 }
 
 #finishersSpace {
-  height: 49vh;
+  height: 48vh;
   width: 100%;
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
   align-items: center;
   padding-top: 2vh;
+  /* background-color: red; */
 }
 
 #newGameSpace {
