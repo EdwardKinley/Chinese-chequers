@@ -68,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
         identifyHomes();
         addPieces();
         colourTargets(numbers[thisX]);
+        document.querySelector('#startButton').focus();
       })
       score.appendChild(option);
     }
@@ -442,6 +443,7 @@ document.addEventListener('DOMContentLoaded', () => {
         playerScore ++;
       };
     }
+    console.log('target score', targets[players[0]].length);
     console.log('score', playerScore);
   }
 
