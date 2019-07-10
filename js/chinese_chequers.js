@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
 
-  // colourHomeSpaces('#202020');
+  // colourHomeSpaces('white');
 
   function enablePlayerNumberSelection() {
     addSelectInstruction();
@@ -146,14 +146,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // function colourHomeSpaces(colour) {
-  //   const spaces = document.querySelectorAll('.space');
-  //   for (i=0; i<spaces.length; i++) {
-  //     if (i<14 || (i>18 && i<26) || (i>31 && i<37) || (i>43 && i<47) || i==55 || i==65 || (i>73 && i<77) || (i>83 && i<89) || (i>94 && i<102) || i>106) {
-  //       spaces[i].style.backgroundColor = colour;
-  //     }
-  //   }
-  // }
+  function colourHomeSpaces(colour) {
+    const spaces = document.querySelectorAll('.space');
+    for (i=0; i<spaces.length; i++) {
+      if (i<14 || (i>18 && i<26) || (i>31 && i<37) || (i>43 && i<47) || i==55 || i==65 || (i>73 && i<77) || (i>83 && i<89) || (i>94 && i<102) || i>106) {
+        spaces[i].style.backgroundColor = colour;
+      }
+    }
+  }
 
   function addPieces() {
     for (i=0; i<players.length; i++) {
@@ -436,15 +436,33 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function processFinisher() {
-    console.log(players[0], colours[players[0]], 'has just moved');
+    // console.log(players[0], colours[players[0]], 'has just moved');
     playerScore = 0;
     for (i=0; i<targets[players[0]].length; i++) {
       if (targets[players[0]][i].firstChild != null && targets[players[0]][i].firstChild.style.backgroundColor == colours[players[0]]) {
         playerScore ++;
       };
     }
-    console.log('target score', targets[players[0]].length);
-    console.log('score', playerScore);
+    const targetScore = targets[players[0]].length;
+    // console.log('target score', targetScore);
+    // console.log('score', playerScore);
+    // console.log('finished?', playerScore == targetScore);
+    if (playerScore == targetScore) {
+      showFinisher(players[0]);
+      players.shift();
+      players.unshift(players.pop());
+    }
+  }
+
+  function showFinisher(player) {
+    const finisher = document.createElement('div');
+    finisher.className = 'finisher';
+    finisher.textContent = `${n+1 - players.length}`;
+    finisher.style.backgroundColor = colours[players[0]];
+    document.querySelector('#finishersSpace').appendChild(finisher);
+    if (colours[players[0]] == 'yellow') {
+      finisher.style.color = 'black';
+    }
   }
 
   function enableFurtherMove() {
