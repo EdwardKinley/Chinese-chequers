@@ -38,8 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
 
-  // colourHomeSpaces('white');
-
   function enablePlayerNumberSelection() {
     addSelectInstruction();
     addPlayerNumberOptions();
@@ -79,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (n==3) { target.style.backgroundImage = `conic-gradient(${boardColour} 0deg 30deg, ${colours[4]} 30deg 90deg, ${boardColour} 90deg 150deg, ${colours[0]} 150deg 210deg, ${boardColour} 210deg 270deg, ${colours[2]} 270deg 330deg, ${boardColour} 330deg 360deg)`; }
     if (n==4) { target.style.backgroundImage = `conic-gradient(${boardColour} 0deg 30deg, ${colours[4]} 30deg 90deg, ${colours[5]} 90deg 150deg, ${boardColour} 150deg 210deg, ${colours[1]} 210deg 270deg, ${colours[2]} 270deg 330deg, ${boardColour} 330deg 360deg)`; }
     if (n==6) { target.style.backgroundImage = `conic-gradient(${colours[3]} 0deg 30deg, ${colours[4]} 30deg 90deg, ${colours[5]} 90deg 150deg, ${colours[0]} 150deg 210deg, ${colours[1]} 210deg 270deg, ${colours[2]} 270deg 330deg, ${colours[3]} 330deg 360deg)`; }
-    // if (n==6) { target.style.backgroundImage = `conic-gradient(${colours[3]} 20deg, ${boardColour} 20deg 40deg, ${colours[4]} 40deg 80deg, ${boardColour} 80deg 100deg, ${colours[5]} 100deg 140deg, ${boardColour} 140deg 160deg, ${colours[0]} 160deg 200deg, ${boardColour} 200deg 220deg, ${colours[1]} 220deg 260deg, ${boardColour} 260deg 280deg, ${colours[2]} 280deg 320deg, ${boardColour} 320deg 340deg, ${colours[3]} 340deg)`; }
   }
 
   function addStartButton() {
@@ -436,7 +433,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function processFinisher() {
-    // console.log(players[0], colours[players[0]], 'has just moved');
     playerScore = 0;
     for (i=0; i<targets[players[0]].length; i++) {
       if (targets[players[0]][i].firstChild != null && targets[players[0]][i].firstChild.style.backgroundColor == colours[players[0]]) {
@@ -444,9 +440,6 @@ document.addEventListener('DOMContentLoaded', () => {
       };
     }
     const targetScore = targets[players[0]].length;
-    // console.log('target score', targetScore);
-    // console.log('score', playerScore);
-    // console.log('finished?', playerScore == targetScore);
     if (playerScore != targetScore) {
       showFinisher(players[0]);
       players.shift();
