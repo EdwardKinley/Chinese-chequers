@@ -30,6 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
   addRows();
   addSpaces();
 
+  document.addEventListener('keyup', function(e) {
+    if (e.keyCode === 13) {
+      if (document.querySelector('#endTurnButton') != null) {
+        endTurn();
+      }
+    }
+  })
+
   // colourHomeSpaces('#202020');
 
   function enablePlayerNumberSelection() {
@@ -421,8 +429,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function enableNextMove() {
     currentMoveKind = null;
+    processFinisher();
     updateCurrentPlayer();
     enableMove();
+  }
+
+  function processFinisher() {
+    console.log(players[0], colours[players[0]], 'has just moved');
+    playerScore = 0;
+    for (i=0; i<targets[players[0]].length; i++) {
+      if (targets[players[0]][i].firstChild != null && targets[players[0]][i].firstChild.style.backgroundColor == colours[players[0]]) {
+        playerScore ++;
+      };
+    }
+    console.log('score', playerScore);
   }
 
   function enableFurtherMove() {
@@ -431,11 +451,14 @@ document.addEventListener('DOMContentLoaded', () => {
     endTurnButton.id = 'endTurnButton';
     endTurnButton.textContent = 'End turn';
     document.querySelector('#playerSpace').appendChild(endTurnButton);
-    endTurnButton.addEventListener('click', () => {
-      endTurnButton.parentNode.removeChild(endTurnButton);
-      makeMovableUnselected();
-      enableNextMove();
-    })
+    endTurnButton.addEventListener('click', endTurn);
+  }
+
+  function endTurn() {
+    const endTurnButton = document.querySelector('#endTurnButton');
+    endTurnButton.parentNode.removeChild(endTurnButton);
+    makeMovableUnselected();
+    enableNextMove();
   }
 
   function updateCurrentPlayer() {
